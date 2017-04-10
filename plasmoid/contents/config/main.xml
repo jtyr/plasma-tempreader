@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+    <kcfgfile name=""/>
+
+    <group name="General">
+        <entry name="tempReaderURL" type="String">
+            <default>http://localhost:8000/tempreader/api/v1.0/sensors/28-03168bf4edff</default>
+        </entry>
+        <entry name="targetTemp" type="Int">
+            <default>71</default>
+            <min>0</min>
+            <max>125</max>
+        </entry>
+    </group>
+</kcfg>

@@ -1,0 +1,17 @@
+[Desktop Entry]
+Name=Temp Reader
+Comment=Reads temperature from a sensor
+
+Icon=preferences-desktop-notification-bell
+Type=Service
+ServiceTypes=Plasma/Applet
+
+X-Plasma-API=declarativeappletscript
+X-Plasma-MainScript=ui/main.qml
+
+X-KDE-PluginInfo-Author=Jiri Tyr
+X-KDE-PluginInfo-Email=jiri.tyr@gmail.com
+X-KDE-PluginInfo-Name=cz.tyr.plasma.tempreader
+X-KDE-PluginInfo-License=MIT
+X-KDE-PluginInfo-Version=1.0
+X-KDE-PluginInfo-Website=https://github.com/jtyr
