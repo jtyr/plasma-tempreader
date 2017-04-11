@@ -1,6 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
+import QtMultimedia 5.8
 
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.plasmoid 2.0
@@ -12,7 +13,12 @@ Item {
     property int interval_short: 1000
 
     property string temp_url: Plasmoid.configuration.tempReaderURL
-    property int target_temp: Plasmoid.configuration.targetTemp
+    property int temp_threshold: Plasmoid.configuration.tempThreshold
+    property bool sound_enabled: Plasmoid.configuration.soundEnabled
+    property string sound_URL: Plasmoid.configuration.soundURL
+    property int sound_loops: Plasmoid.configuration.soundLoops
+    property bool notification_enabled: Plasmoid.configuration.notificationEnabled
+    property int notification_timeout: Plasmoid.configuration.notificationTimeout
 
     GridLayout {
         anchors.fill: parent
@@ -32,15 +38,33 @@ Item {
         }
     }
 
-    MessageDialog {
-        id: messageDialog
-        title: "Temp Reader"
-        text: "Target temperature of " + target_temp + " °C has been reached."
-        onAccepted: {
-            dialog_opened = false;
-            currentTemp.color = "black";
-            currentTemp.font.weight = Font.Normal;
+    SoundEffect {
+        id: soundEffect
+        source: (sound_URL.length > 0) ? sound_URL : "../sounds/notif.wav"
+        loops: sound_loops
+    }
+
+    PlasmaCore.DataSource {
+        id: notificationDataSource
+        engine: "notifications"
+        connectedSources: ["org.freedesktop.Notifications"]
+        onSourceRemoved: {
+            resetWidget();
+            soundEffect.stop();
         }
+    }
+
+    function createNotification() {
+        var service = notificationDataSource.serviceForSource("notification");
+        var operation = service.operationDescription("createNotification");
+
+        operation.appName = "Notification Example";
+        operation.appIcon = "preferences-desktop-notification-bell";
+        operation.summary = "Temp Reader";
+        operation.body = "Temperature threshold of " + temp_threshold + " °C has been reached.";
+        operation.expireTimeout = notification_timeout * 1000;
+
+        service.startOperationCall(operation);
     }
 
     MouseArea {
@@ -55,7 +79,7 @@ Item {
             anchors.fill: parent
             subText: {
                 "Current temperature: " + currentTemp.text + "\n" +
-                "Target temperature: " + target_temp + " °C\n" +
+                "Threshold: " + temp_threshold + " °C\n" +
                 "Update interval: " + textTimer.interval/1000 + " s\n" +
                 "URL: " + temp_url
             }
@@ -71,6 +95,18 @@ Item {
         onTriggered: readData()
     }
 
+    function resetWidget() {
+        dialog_opened = false;
+        currentTemp.color = "black";
+        currentTemp.font.weight = Font.Normal;
+    }
+
+    Timer {
+        id: resetWidgetTimer
+        interval: interval_long
+        onTriggered: resetWidget()
+    }
+
     function readData() {
         var request = new XMLHttpRequest();
         request.onreadystatechange = function() {
@@ -81,14 +117,24 @@ Item {
 
                     currentTemp.text = t + " °C";
 
-                    if (t > target_temp) {
+                    if (t > temp_threshold) {
                         checking = true;
                         textTimer.interval = interval_short;
                         currentTemp.font.weight = Font.Bold;
                         currentTemp.color = "red";
-                    } else if (t <= target_temp && checking) {
+                    } else if (t <= temp_threshold && checking) {
                         checking = false;
-                        messageDialog.open();
+
+                        if (sound_enabled) {
+                            soundEffect.play()
+                        }
+
+                        if (notification_enabled) {
+                            createNotification()
+                        } else {
+                            resetWidgetTimer.start()
+                        }
+
                         dialog_opened = true;
                         textTimer.interval = interval_long;
                         currentTemp.color = "green";

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
@@ -7,12 +8,38 @@
 
     <group name="General">
         <entry name="tempReaderURL" type="String">
+            <label>URL to the sensor's endpoint in the Temp Reader RESTful API.</label>
             <default>http://localhost:8000/tempreader/api/v1.0/sensors/28-03168bf4edff</default>
         </entry>
-        <entry name="targetTemp" type="Int">
+        <entry name="tempThreshold" type="Int">
+            <label>Temperature threshold on which to trigger the sound and/or message notification.</label>
             <default>71</default>
             <min>0</min>
             <max>125</max>
+        </entry>
+        <entry name="soundEnabled" type="Bool">
+            <label>Whether the notification sound will be played.</label>
+            <default>true</default>
+        </entry>
+        <entry name="soundURL" type="String">
+            <label>Path to the custom WAV or MP3 file.</label>
+            <default></default>
+        </entry>
+        <entry name="soundLoops" type="Int">
+            <label>How many times to play the notification sound.</label>
+            <default>1</default>
+            <min>1</min>
+            <max>100</max>
+        </entry>
+        <entry name="notificationEnabled" type="Bool">
+            <label>Whether the notification message will be displayed.</label>
+            <default>true</default>
+        </entry>
+        <entry name="notificationTimeout" type="Int">
+            <label>Number of seconds after which the notification will be dismissed automatically.</label>
+            <default>60</default>
+            <min>1</min>
+            <max>3600</max>
         </entry>
     </group>
 </kcfg>
