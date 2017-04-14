@@ -11,5 +11,9 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_MODULE_PA
 # Locate plasma_install_package macro.
 find_package(KF5Plasma REQUIRED)
 
+# Install icon
+install(FILES plasmoid/icons/tempreader.svgz
+        DESTINATION ${DATA_INSTALL_DIR}/icons/hicolor/scalable/apps/)
+
 # Add installatation target ("make install").
 plasma_install_package(plasmoid cz.tyr.plasma.tempreader)

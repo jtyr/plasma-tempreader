@@ -1,12 +1,14 @@
 import QtQuick 2.7
-import QtQuick.Layouts 1.3
 import QtQuick.Controls 1.4
+import QtQuick.Dialogs 1.2
+import QtQuick.Layouts 1.3
 
 import org.kde.plasma.core 2.0 as PlasmaCore
 
 Item {
     property alias cfg_tempReaderURL: tempReaderURL.text
     property alias cfg_tempThreshold: tempThreshold.value
+    property alias cfg_widgetLabel: widgetLabel.text
     property alias cfg_soundEnabled: soundEnabled.checked
     property alias cfg_soundURL: soundURL.text
     property alias cfg_soundLoops: soundLoops.value
@@ -33,10 +35,26 @@ Item {
             Layout.alignment: Qt.AlignRight
         }
 
-        SpinBox {
-            id: tempThreshold
-            minimumValue: 0
-            maximumValue: 125
+        RowLayout {
+            SpinBox {
+                id: tempThreshold
+                minimumValue: 0
+                maximumValue: 125
+            }
+
+            Text {
+                text: "°C"
+            }
+        }
+
+        Text {
+            text: "Widget label:"
+            Layout.alignment: Qt.AlignRight
+        }
+
+        TextField {
+            id: widgetLabel
+            Layout.fillWidth: true
         }
 
         Text {
@@ -44,7 +62,6 @@ Item {
             font.weight: Font.Bold
             topPadding: 10
             Layout.columnSpan: 2
-            Layout.alignment: Qt.AlignLeft
         }
 
         Text {
@@ -57,15 +74,36 @@ Item {
         }
 
         Text {
-            text: "Custom file:"
+            text: "Custom sound:"
             Layout.alignment: Qt.AlignRight
         }
 
-        TextField {
-            id: soundURL
-            enabled: soundEnabled.checked
+        RowLayout {
             Layout.fillWidth: true
-            placeholderText: "Path to WAV or MP3 file..."
+
+            TextField {
+                id: soundURL
+                enabled: soundEnabled.checked
+                Layout.fillWidth: true
+                placeholderText: "Path to WAV or MP3 file..."
+            }
+
+            Button {
+                text: "Open"
+                enabled: soundEnabled.checked
+                onClicked: {
+                    fileDialog.open();
+                }
+            }
+        }
+
+        FileDialog {
+            id: fileDialog
+            title: "Please choose a file"
+            folder: shortcuts.home
+            onAccepted: {
+                soundURL.text = fileDialog.fileUrl;
+            }
         }
 
         Text {
@@ -85,7 +123,6 @@ Item {
             font.weight: Font.Bold
             topPadding: 10
             Layout.columnSpan: 2
-            Layout.alignment: Qt.AlignLeft
         }
 
         Text {
@@ -102,11 +139,17 @@ Item {
             Layout.alignment: Qt.AlignRight
         }
 
-        SpinBox {
-            id: notificationTimeout
-            enabled: notificationEnabled.checked
-            minimumValue: 1
-            maximumValue: 3600
+        RowLayout {
+            SpinBox {
+                id: notificationTimeout
+                enabled: notificationEnabled.checked
+                minimumValue: 1
+                maximumValue: 3600
+            }
+
+            Text {
+                text: "s"
+            }
         }
     }
 }

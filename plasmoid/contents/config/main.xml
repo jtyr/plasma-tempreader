@@ -17,6 +17,10 @@
             <min>0</min>
             <max>125</max>
         </entry>
+        <entry name="widgetLabel" type="String">
+            <label>Widget label.</label>
+            <default></default>
+        </entry>
         <entry name="soundEnabled" type="Bool">
             <label>Whether the notification sound will be played.</label>
             <default>true</default>

@@ -2,7 +2,7 @@
 Name=Temp Reader
 Comment=Reads temperature from a sensor
 
-Icon=preferences-desktop-notification-bell
+Icon=tempreader
 Type=Service
 ServiceTypes=Plasma/Applet
 

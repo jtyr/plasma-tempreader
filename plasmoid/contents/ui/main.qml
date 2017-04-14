@@ -14,6 +14,7 @@ Item {
 
     property string temp_url: Plasmoid.configuration.tempReaderURL
     property int temp_threshold: Plasmoid.configuration.tempThreshold
+    property string widget_label: Plasmoid.configuration.widgetLabel
     property bool sound_enabled: Plasmoid.configuration.soundEnabled
     property string sound_URL: Plasmoid.configuration.soundURL
     property int sound_loops: Plasmoid.configuration.soundLoops
@@ -22,6 +23,17 @@ Item {
 
     GridLayout {
         anchors.fill: parent
+        rows: 2
+        columns: 1
+
+        Text {
+            id: widgetLabel
+            Layout.fillWidth: true
+            text: widget_label
+            topPadding: 3
+            horizontalAlignment: Text.AlignHCenter
+            visible: (widget_label.length > 0) ? true : false
+        }
 
         Text {
             id: currentTemp
@@ -29,8 +41,8 @@ Item {
             Layout.fillWidth: true
             text: "???"
             font.weight: Font.Normal
-            font.pointSize: 72
-            padding: 10
+            font.pointSize: 256
+            padding: 5
             minimumPointSize: 10
             fontSizeMode: Text.Fit
             horizontalAlignment: Text.AlignHCenter
@@ -59,7 +71,7 @@ Item {
         var operation = service.operationDescription("createNotification");
 
         operation.appName = "Notification Example";
-        operation.appIcon = "preferences-desktop-notification-bell";
+        operation.appIcon = "tempreader";
         operation.summary = "Temp Reader";
         operation.body = "Temperature threshold of " + temp_threshold + " °C has been reached.";
         operation.expireTimeout = notification_timeout * 1000;
