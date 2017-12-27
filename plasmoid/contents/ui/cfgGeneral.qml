@@ -1,3 +1,4 @@
+import QtMultimedia 5.8
 import QtQuick 2.7
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
@@ -94,6 +95,19 @@ Item {
                 onClicked: {
                     fileDialog.open();
                 }
+            }
+
+            Button {
+                text: "Play"
+                enabled: soundEnabled.checked
+                onClicked: {
+                   soundEffect.play();
+                }
+            }
+
+            SoundEffect {
+                id: soundEffect
+                source: (soundURL.text.length > 0) ? soundURL.text : "../sounds/notif.wav"
             }
         }
 
