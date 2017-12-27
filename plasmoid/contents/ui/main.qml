@@ -1,7 +1,7 @@
-import QtQuick 2.7
-import QtQuick.Layouts 1.3
-import QtQuick.Dialogs 1.2
 import QtMultimedia 5.8
+import QtQuick 2.7
+import QtQuick.Dialogs 1.2
+import QtQuick.Layouts 1.3
 
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.plasmoid 2.0
