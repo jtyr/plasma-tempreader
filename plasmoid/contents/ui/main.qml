@@ -109,7 +109,7 @@ Item {
 
     function resetWidget() {
         dialog_opened = false;
-        currentTemp.color = "black";
+        currentTemp.color = theme.textColor;
         currentTemp.font.weight = Font.Normal;
     }
 
@@ -151,7 +151,7 @@ Item {
                         textTimer.interval = interval_long;
                         currentTemp.color = "green";
                     } else if (! dialog_opened) {
-                        currentTemp.color = "black";
+                        currentTemp.color = theme.textColor;
                     }
                 } else {
                     currentTemp.color = "gray";
